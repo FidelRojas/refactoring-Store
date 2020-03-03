@@ -74,12 +74,18 @@ public class Order {
 
 	private float calculateAmountOfCloathing(OrderItem item, float totalAmountOfAnItem, float itemAmount) {
 		if (isCloathing(item)) {
-			float cloathingDiscount = 0;
-			if (item.getQuantity() > 2) {
-				cloathingDiscount = item.getProduct().getUnitPrice();
-			}
-			totalAmountOfAnItem = itemAmount - cloathingDiscount;
+			totalAmountOfAnItem = applyDiscountCloathing(item, itemAmount);
 		}
+		return totalAmountOfAnItem;
+	}
+
+	private float applyDiscountCloathing(OrderItem item, float itemAmount) {
+		float totalAmountOfAnItem;
+		float cloathingDiscount = 0;
+		if (item.getQuantity() > 2) {
+			cloathingDiscount = item.getProduct().getUnitPrice();
+		}
+		totalAmountOfAnItem = itemAmount - cloathingDiscount;
 		return totalAmountOfAnItem;
 	}
 
@@ -89,9 +95,14 @@ public class Order {
 
 	private float calculateAmountOfBikes(OrderItem item, float totalAmountOfAnItem, float itemAmount) {
 		if (isBikes(item)) {
-			// 20% discount for Bikes
-			totalAmountOfAnItem = itemAmount - itemAmount * 20 / 100;
+			totalAmountOfAnItem = applyDiscountBikes(itemAmount);
 		}
+		return totalAmountOfAnItem;
+	}
+
+	private float applyDiscountBikes(float itemAmount) {
+		float totalAmountOfAnItem;
+		totalAmountOfAnItem = itemAmount - itemAmount * 20 / 100;
 		return totalAmountOfAnItem;
 	}
 
@@ -100,13 +111,19 @@ public class Order {
 	}
 
 	private float calculateAmountOfAccesories(OrderItem item, float totalAmountOfAnItem, float itemAmount) {
-		if (isAccessories(item)) {
-			float booksDiscount = 0;
-			if (itemAmount >= 100) {
-				booksDiscount = itemAmount * 10 / 100;
-			}
-			totalAmountOfAnItem = itemAmount - booksDiscount;
+		if (isAccessories(item)) 
+			totalAmountOfAnItem = applyDiscountAccessories(itemAmount);
+		
+		return totalAmountOfAnItem;
+	}
+
+	private float applyDiscountAccessories(float itemAmount) {
+		float totalAmountOfAnItem;
+		float booksDiscount = 0;
+		if (itemAmount >= 100) {
+			booksDiscount = itemAmount * 10 / 100;
 		}
+		totalAmountOfAnItem = itemAmount - booksDiscount;
 		return totalAmountOfAnItem;
 	}
 
